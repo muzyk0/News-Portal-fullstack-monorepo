@@ -51,6 +51,8 @@ const main = async () => {
         context: ({ req, res }): MyContext => ({ em: orm.em, req, res }),
     });
 
+    await apolloServer.start();
+
     apolloServer.applyMiddleware({ app });
 
     app.listen(4000, () => {
