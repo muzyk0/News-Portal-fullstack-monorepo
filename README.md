@@ -28,3 +28,14 @@ Type in your 'postgres' superuser password. This should be the same as supplied 
 Once connected, you can key in SQL queries as you like. Please refer to psql documentation for help on using psql client.
 
 https://www.postgresql.org/docs/9.4/static/app-psql.html
+
+## Solve problems
+
+#### If you can error `listen EADDRINUSE: address already in use :::4000`
+
+First, you would want to know which process is using port 3000
+
+`sudo lsof -i :4000`
+this will list all PID listening on this port, once you have the PID you can terminate it with the following:
+
+`kill -9 {PID}`
