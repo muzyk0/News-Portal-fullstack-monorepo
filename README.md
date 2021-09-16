@@ -1,4 +1,4 @@
-# Fullstack APP
+# Server
 
 ## Settings
 
@@ -12,9 +12,17 @@ Once installer has completed installation successfully, following information sh
 
 Open terminal and type following commands
 
-. Status: sudo service "postgresql-2ndQ-13" status
-. Start: sudo service "postgresql-2ndQ-13" start
-. Stop: sudo service "postgresql-2ndQ-13" stop
+. Status: `sudo service "postgresql-2ndQ-13" status`
+. Start: `sudo service "postgresql-2ndQ-13" start`
+. Stop: `sudo service "postgresql-2ndQ-13" stop`
+
+#### postgresql service
+
+. show status of service: `systemctl status postgresql`
+. start service: `systemctl start postgresql`
+. stop service: `systemctl stop postgresql`
+. disable service(not auto-start any more) `systemctl disable postgresql`
+. enable service postgresql(auto-start) `systemctl enable postgresql`
 
 ### Connect to PostgreSQL via psql
 
