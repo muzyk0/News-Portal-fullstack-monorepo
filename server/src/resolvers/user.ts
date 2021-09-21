@@ -44,11 +44,9 @@ export class UserResolver {
     @Query(() => User, { nullable: true })
     async me(@Ctx() { em, req }: MyContext): Promise<User | null> {
         // you are not logged in
-        //@ts-ignore
         if (!req.session.userId) {
             return null;
         }
-        //@ts-ignore
         const user = await em.findOne(User, { id: req.session.userId });
 
         return user;
@@ -106,8 +104,7 @@ export class UserResolver {
          *  this will set a cookie on the user
          * keep them logged in
          * */
-        //@ts-ignore
-        req.session.userid = user.id;
+        req.session.userId = user.id;
 
         return { user };
     }
@@ -144,7 +141,6 @@ export class UserResolver {
             };
         }
 
-        //@ts-ignore
         req.session.userId = user.id;
 
         return {
