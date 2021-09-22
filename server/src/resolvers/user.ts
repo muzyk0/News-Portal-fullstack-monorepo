@@ -82,11 +82,25 @@ export class UserResolver {
             username: options.username,
             password: hashedPassword,
         });
+
+        // let user;
         try {
+            // const result = (em as EntityManager)
+            //     .createQueryBuilder(User)
+            //     .getKnexQuery()
+            //     .insert({
+            //         username: options.username,
+            //         password: hashedPassword,
+            //         created_at: new Date(),
+            //         updated_at: new Date(),
+            //     })
+            //     .returning("*");
+            // user = result[0]
             await em.persistAndFlush(user);
         } catch (error) {
             /** duplicate username error
              * error.details.includes("already exists")
+             * error.code === "23505"
              */
             if (error.code === "23505") {
                 return {
