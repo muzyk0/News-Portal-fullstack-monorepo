@@ -128,10 +128,7 @@ export class UserResolver {
         @Arg("options") options: UsernamePasswordInput,
         @Ctx() { em, req }: MyContext
     ): Promise<UserResponse> {
-        const user = await em.findOne(User, {
-            username: options.username,
-        });
-
+        const user = await em.findOne(User, { username: options.username });
         if (!user) {
             return {
                 errors: [
@@ -142,7 +139,6 @@ export class UserResolver {
                 ],
             };
         }
-
         const valid = await argon2.verify(user.password, options.password);
         if (!valid) {
             return {
