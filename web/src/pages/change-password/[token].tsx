@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { NextPage } from "next";
 import NextLink from "next/link";
 import { Form, Formik } from "formik";
@@ -13,8 +13,6 @@ import { toErrorMap } from "../../utils/toErrorMap";
 import { Box, Flex, Link } from "@chakra-ui/layout";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
-
-interface Props {}
 
 const ChangePassword: NextPage<{ token: string }> = ({ token }) => {
     const router = useRouter();
