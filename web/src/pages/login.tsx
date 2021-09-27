@@ -15,13 +15,13 @@ interface LoginProps {}
 
 const Login: React.FC<LoginProps> = ({}) => {
     const router = useRouter();
-    const [, register] = useLoginMutation();
+    const [, login] = useLoginMutation();
     return (
         <Wrapper variant="small">
             <Formik
-                initialValues={{ username: "", password: "" }}
+                initialValues={{ usernameOrEmail: "", password: "" }}
                 onSubmit={async (values, { setErrors }) => {
-                    const response = await register({ options: values });
+                    const response = await login(values);
 
                     if (response.data?.login.errors) {
                         setErrors(toErrorMap(response.data.login.errors));
@@ -33,9 +33,9 @@ const Login: React.FC<LoginProps> = ({}) => {
                 {({ isSubmitting }) => (
                     <Form>
                         <InputField
-                            name="username"
-                            placeholder="username"
-                            label="Username"
+                            name="usernameOrEmail"
+                            placeholder="Username Or Email"
+                            label="Username Or Email"
                         />
                         <Box mt={4}>
                             <InputField
