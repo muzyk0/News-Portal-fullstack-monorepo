@@ -70,13 +70,13 @@ export class UserResolver {
 
         await sendEmail(
             email,
-            `<a href="https://localhost:3000/change-password/${token}">Reset password</a>`
+            `<a href="http://localhost:3000/change-password/${token}">Reset password</a>`
         );
 
         return true;
     }
 
-    @Mutation(() => UserResolver)
+    @Mutation(() => UserResponse)
     async changePassword(
         @Arg("token") token: string,
         @Arg("newPassword") newPassword: string,
@@ -92,8 +92,8 @@ export class UserResolver {
                 ],
             };
         }
-
-        const userId = await redis.get(FORGET_PASSWORD_PREFIX + token);
+        const key = FORGET_PASSWORD_PREFIX + token;
+        const userId = await redis.get(key);
 
         if (!userId) {
             return {
@@ -119,11 +119,13 @@ export class UserResolver {
             };
         }
 
-        // log in user after change password
-        req.session.userId = user.id;
-
         user.password = await argon2.hash(newPassword);
         em.persistAndFlush(user);
+
+        await redis.del(key);
+
+        // log in user after change password
+        req.session.userId = user.id;
 
         return { user };
     }
