@@ -1,60 +1,47 @@
-import { Resolver, Query, Ctx, Arg, Mutation, Int } from "type-graphql";
+import { Resolver, Query, Arg, Mutation, Int } from "type-graphql";
 
-import { MyContext } from "../types";
 import { Post } from "../entities/Post";
 
 @Resolver()
 export class PostResolver {
     @Query(() => [Post], { description: "Return array Posts" })
-    async posts(@Ctx() { em }: MyContext): Promise<Post[]> {
-        return em.find(Post, {});
+    async posts(): Promise<Post[]> {
+        return Post.find();
     }
 
     @Query(() => Post, { nullable: true })
-    async post(
-        @Arg("id", () => Int) id: number,
-        @Ctx() { em }: MyContext
-    ): Promise<Post | null> {
-        return em.findOne(Post, { id });
+    async post(@Arg("id", () => Int) id: number): Promise<Post | undefined> {
+        return Post.findOne(id);
     }
 
     @Mutation(() => Post)
-    async createPost(
-        @Arg("title") title: string,
-        @Ctx() { em }: MyContext
-    ): Promise<Post> {
-        const post = em.create(Post, {
+    async createPost(@Arg("title") title: string): Promise<Post> {
+        const post = Post.create({
             title,
         });
-        await em.persistAndFlush(post);
-        return post;
+        return await post.save();
     }
 
     @Mutation(() => Post, { nullable: true })
     async updatePost(
         @Arg("id", () => Int) id: number,
-        @Arg("title", () => String, { nullable: true }) title: string,
-        @Ctx() { em }: MyContext
+        @Arg("title", () => String, { nullable: true }) title: string
     ): Promise<Post | null> {
-        const post = await em.findOne(Post, { id });
+        const post = await Post.findOne(id);
 
         if (!post) {
             return null;
         }
         if (typeof title !== "undefined") {
-            post.title = title;
-            await em.persistAndFlush(post);
+            await Post.update({ id }, { title });
         }
 
         return post;
     }
 
     @Mutation(() => Boolean)
-    async deletePost(
-        @Arg("id", () => Int) id: number,
-        @Ctx() { em }: MyContext
-    ): Promise<boolean> {
-        const result = await em.nativeDelete(Post, { id });
+    async deletePost(@Arg("id", () => Int) id: number): Promise<boolean> {
+        const result = await Post.delete(id);
 
         if (result) {
             return true;

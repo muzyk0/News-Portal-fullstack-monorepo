@@ -1,11 +1,10 @@
 import "reflect-metadata";
-import { MikroORM } from "@mikro-orm/core";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
+import { createConnection } from "typeorm";
 
 import { COOKIE_NAME, __prod__ } from "./constants";
-import microConfig from "./mikro-orm.config";
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
@@ -19,10 +18,19 @@ import {
     ApolloServerPluginLandingPageDisabled,
     ApolloServerPluginLandingPageGraphQLPlayground,
 } from "apollo-server-core";
+import { Post } from "./entities/Post";
+import { User } from "./entities/User";
 
 const main = async () => {
-    const orm = await MikroORM.init(microConfig);
-    await orm.getMigrator().up();
+    await createConnection({
+        type: "postgres",
+        database: "app",
+        username: "postgres",
+        password: "3273",
+        logging: true,
+        synchronize: true,
+        entities: [Post, User],
+    });
 
     const app = express();
 
@@ -60,7 +68,7 @@ const main = async () => {
                 ? ApolloServerPluginLandingPageDisabled()
                 : ApolloServerPluginLandingPageGraphQLPlayground(),
         ],
-        context: ({ req, res }): MyContext => ({ em: orm.em, req, res, redis }),
+        context: ({ req, res }): MyContext => ({ req, res, redis }),
     });
 
     await apolloServer.start();
