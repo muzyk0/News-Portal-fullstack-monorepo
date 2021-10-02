@@ -28,7 +28,7 @@ const main = async () => {
         username: "postgres",
         password: "3273",
         logging: true,
-        synchronize: true,
+        synchronize: true, // synchronize before crashing app
         entities: [Post, User],
     });
 
