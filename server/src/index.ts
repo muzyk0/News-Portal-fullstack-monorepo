@@ -24,9 +24,9 @@ import { User } from "./entities/User";
 const main = async () => {
     await createConnection({
         type: "postgres",
-        database: "app",
+        database: "fullstack-app",
         username: "postgres",
-        password: "3273",
+        password: "postgres",
         logging: true,
         synchronize: true, // synchronize before crashing app
         entities: [Post, User],

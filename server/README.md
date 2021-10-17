@@ -1,10 +1,24 @@
 # Server
 
+. Start server cd
+
 ## Settings
+
+### Redis
+
+. Start Redis server `redis-server`
+. Check if Redis is working `redis-cli ping`
 
 ### Controlling PostgreSQL service
 
+. Install PostgreSQL [Linux downloads (Red Hat family)](https://www.postgresql.org/download/linux/redhat/).
+. Start PostgreSQL `sudo systemctl start postgresql-14`
+
+. Uninstall PostgreSQL [How To Completely Uninstall PostgreSQL](https://kb.objectrocket.com/postgresql/how-to-completely-uninstall-postgresql-757)
+
 ==============================
+
+. PostgreSQL console: `sudo -u postgres psql`
 
 Once installer has completed installation successfully, following information should hold true for your platform.
 
