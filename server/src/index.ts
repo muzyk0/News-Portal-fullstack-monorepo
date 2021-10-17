@@ -1,4 +1,5 @@
 import "reflect-metadata";
+require("dotenv").config();
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
@@ -24,21 +25,23 @@ import { User } from "./entities/User";
 const main = async () => {
     await createConnection({
         type: "postgres",
-        database: "fullstack-app",
-        username: "postgres",
-        password: "postgres",
+        // database: "fullstack-app",
+        // username: "postgres",
+        // password: "postgres",
+        url: process.env.DATABASE_URL,
         logging: true,
         synchronize: true, // synchronize before crashing app
+        // migrations: [path.join(__dirname, ".migrations/*")],
         entities: [Post, User],
     });
 
     const app = express();
 
     let RedisStore = connectRedis(session);
-    let redis = new Redis();
+    let redis = new Redis(process.env.REDIS_URL);
 
-    app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-
+    app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
+    app.set("proxy", 1);
     app.use(
         session({
             name: COOKIE_NAME,
@@ -51,9 +54,10 @@ const main = async () => {
                 httpOnly: true,
                 sameSite: "lax", // csrf
                 secure: __prod__, // cookie only works in https
+                domain: __prod__ ? ".codeponder.com" : undefined,
             },
             saveUninitialized: false,
-            secret: "keyboard cat",
+            secret: process.env.SESSION_SECRET,
             resave: false,
         })
     );
@@ -78,8 +82,8 @@ const main = async () => {
         cors: false,
     });
 
-    app.listen(4000, () => {
-        console.log("server started on localhost:4000");
+    app.listen(parseInt(process.env.PORT), () => {
+        console.log(`server started on localhost:${process.env.PORT}`);
     });
 };
 

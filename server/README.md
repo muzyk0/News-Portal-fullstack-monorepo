@@ -18,6 +18,12 @@
 
 ==============================
 
+### Docker
+
+. Build docker (fullstack-app/server): `docker build -t muzyk0/fullstack-app:latest .`
+
+### Controlling PostgreSQL service
+
 . PostgreSQL console: `sudo -u postgres psql`
 
 Once installer has completed installation successfully, following information should hold true for your platform.
