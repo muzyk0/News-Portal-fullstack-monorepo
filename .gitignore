@@ -29,3 +29,6 @@ yarn-error.log*
 # ide
 .idea/
 .vscode/
+
+# Redis server 
+dump.rdb

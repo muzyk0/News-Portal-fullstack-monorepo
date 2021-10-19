@@ -12,7 +12,7 @@
 ### Controlling PostgreSQL service
 
 . Install PostgreSQL [Linux downloads (Red Hat family)](https://www.postgresql.org/download/linux/redhat/).
-. Start PostgreSQL `sudo systemctl start postgresql-14`
+. Start PostgreSQL `sudo systemctl start postgresql`
 
 . Uninstall PostgreSQL [How To Completely Uninstall PostgreSQL](https://kb.objectrocket.com/postgresql/how-to-completely-uninstall-postgresql-757)
 
@@ -28,13 +28,13 @@
 
 Once installer has completed installation successfully, following information should hold true for your platform.
 
-. Service name: postgresql-2ndQ-13
+. Service name: postgresql
 
 Open terminal and type following commands
 
-. Status: `sudo service "postgresql-2ndQ-13" status`
-. Start: `sudo service "postgresql-2ndQ-13" start`
-. Stop: `sudo service "postgresql-2ndQ-13" stop`
+. Status: `sudo service "postgresql" status`
+. Start: `sudo service "postgresql" start`
+. Stop: `sudo service "postgresql" stop`
 
 #### postgresql service
 
