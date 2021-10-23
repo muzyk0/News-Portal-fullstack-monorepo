@@ -21,17 +21,15 @@ import {
 } from "apollo-server-core";
 import { Post } from "./entities/Post";
 import { User } from "./entities/User";
+import path from "path";
 
 const main = async () => {
     await createConnection({
         type: "postgres",
-        // database: "fullstack-app",
-        // username: "postgres",
-        // password: "postgres",
         url: process.env.DATABASE_URL,
         logging: true,
         synchronize: true, // synchronize before crashing app
-        // migrations: [path.join(__dirname, ".migrations/*")],
+        migrations: [path.join(__dirname, ".migrations/*")],
         entities: [Post, User],
     });
 
