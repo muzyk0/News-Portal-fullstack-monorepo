@@ -24,7 +24,9 @@
 
 ### Controlling PostgreSQL service
 
-. PostgreSQL console: `sudo -u postgres psql`
+. PostgreSQL console: `sudo -u postgres -i`
+
+-   DB console: `psql fullstack-app`
 
 Once installer has completed installation successfully, following information should hold true for your platform.
 

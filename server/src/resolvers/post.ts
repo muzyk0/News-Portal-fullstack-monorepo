@@ -33,7 +33,7 @@ export class PostResolver {
         return root.text.slice(0, 50);
     }
 
-    @Query(() => [Post], { description: "Return array Posts" })
+    @Query(() => [Post])
     async posts(
         @Arg("limit", () => Int) limit: number,
         @Arg("cursor", () => String, { nullable: true }) cursor: string | null
@@ -46,10 +46,11 @@ export class PostResolver {
             .take(realLimit);
 
         if (cursor) {
-            qb.where('"createdAt" > :cursor', {
+            qb.where('"createdAt" < :cursor', {
                 cursor: new Date(parseInt(cursor)),
             });
         }
+
         return qb.getMany();
     }
 
