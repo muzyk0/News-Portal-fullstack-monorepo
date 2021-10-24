@@ -15,7 +15,6 @@ import {
 import { getConnection } from "typeorm";
 
 import { Post } from "../entities/Post";
-import { Updoot } from "../entities/Updoot";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
 
