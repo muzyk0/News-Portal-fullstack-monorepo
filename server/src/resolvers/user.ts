@@ -6,6 +6,8 @@ import {
     Field,
     ObjectType,
     Query,
+    FieldResolver,
+    Root,
 } from "type-graphql";
 import argon2 from "argon2";
 
@@ -35,8 +37,18 @@ class UserResponse {
     user?: User;
 }
 
-@Resolver()
+@Resolver(User)
 export class UserResolver {
+    @FieldResolver(() => String)
+    email(@Root() user: User, @Ctx() { req }: MyContext) {
+        // this is the current user and its ok to show their own email
+        if (req.session.userId === user.id) {
+            return user.email;
+        }
+        // current user wants to see someone elses email
+        return "";
+    }
+
     @Query(() => User, { nullable: true })
     async me(@Ctx() { req }: MyContext): Promise<User | undefined> {
         // you are not logged in
