@@ -46,8 +46,8 @@ export class PostResolver {
     @Mutation(() => Boolean)
     @UseMiddleware(isAuth)
     async vote(
-        @Arg("postId") postId: number,
-        @Arg("value") value: number,
+        @Arg("postId", () => Int) postId: number,
+        @Arg("value", () => Int) value: number,
         @Ctx() { req }: MyContext
     ) {
         const isUpdoot = value !== -1;
@@ -63,14 +63,14 @@ export class PostResolver {
 
         await getConnection().query(
             `
-          START TRANSACTION;
-          insert into updoot ("userId", "postId", value)
-          values (${userId},${postId},${realValue});
-          update post
-          set points = points + ${realValue}
-          where id = ${postId};
-          COMMIT;
-          `
+        START TRANSACTION;
+        insert into updoot ("userId", "postId", value)
+        values (${userId},${postId},${realValue});
+        update post
+        set points = points + ${realValue}
+        where id = ${postId};
+        COMMIT;
+            `
         );
 
         return true;
