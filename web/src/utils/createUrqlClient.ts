@@ -91,28 +91,35 @@ export const createUrqlClient = (ssrExchange: any) => ({
                                 fragment _ on Post {
                                     id
                                     points
+                                    voteStatus
                                 }
                             `,
-                            { id: postId }
+                            { id: postId } as any
                         );
-                        console.log("data ", data);
-                        console.log("value ", value);
 
                         if (data) {
-                            const newPoints = data.points + value;
-
+                            if (data.voteStatus === value) {
+                                return;
+                            }
+                            const newPoints =
+                                (data.points as number) +
+                                (!data.voteStatus ? 1 : 2) * value;
                             cache.writeFragment(
                                 gql`
-                                    fragment _ on Post {
-                                        id
+                                    fragment __ on Post {
                                         points
+                                        voteStatus
                                     }
                                 `,
-                                { id: postId, points: newPoints }
+                                {
+                                    id: postId,
+                                    points: newPoints,
+                                    voteStatus: value,
+                                } as any
                             );
                         }
                     },
-                    createPost: (_result, args, cache, info) => {
+                    createPost: (_result, _args, cache, _info) => {
                         const allFields = cache.inspectFields("Query");
                         const fieldInfos = allFields.filter(
                             (info) => info.fieldName === "posts"
