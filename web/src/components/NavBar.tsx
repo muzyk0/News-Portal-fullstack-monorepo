@@ -1,7 +1,7 @@
 import React from "react";
 import NextLink from "next/link";
 
-import { Box, Button, Flex, Link } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Link } from "@chakra-ui/react";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { isServer } from "../utils/isServer";
 
@@ -29,6 +29,11 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     } else {
         body = (
             <Flex>
+                <NextLink href="/create-post">
+                    <Link ml="auto" mr={2}>
+                        create post
+                    </Link>
+                </NextLink>
                 <Box mr={2}>{data.me.username}</Box>
                 <Button
                     variant="link"
@@ -41,7 +46,19 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
         );
     }
     return (
-        <Flex zIndex={1} position="sticky" top={0} bg="tan" p={4}>
+        <Flex
+            zIndex={1}
+            position="sticky"
+            top={0}
+            bg="tan"
+            p={4}
+            align="center"
+        >
+            <NextLink href="/">
+                <Link>
+                    <Heading>Fullstack-App</Heading>
+                </Link>
+            </NextLink>
             <Box ml="auto">{body}</Box>
         </Flex>
     );

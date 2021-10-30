@@ -103,6 +103,13 @@ export class PostResolver {
         return true;
     }
 
+    @Query(() => Post, { nullable: true })
+    async post(@Arg("id", () => Int) id: number): Promise<Post | undefined> {
+        return Post.findOne(id, {
+            relations: ["creator"],
+        });
+    }
+
     @Query(() => PaginatedPosts)
     async posts(
         @Arg("limit", () => Int) limit: number,
@@ -166,13 +173,6 @@ export class PostResolver {
             posts: posts.slice(0, realLimit),
             hasMore: posts.length === realLimitPlusOne,
         };
-    }
-
-    @Query(() => Post, { nullable: true })
-    async post(@Arg("id", () => Int) id: number): Promise<Post | undefined> {
-        return Post.findOne(id, {
-            relations: ["creator"],
-        });
     }
 
     @Mutation(() => Post)
