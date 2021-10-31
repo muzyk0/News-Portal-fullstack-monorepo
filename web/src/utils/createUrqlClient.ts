@@ -10,6 +10,7 @@ import {
     MeDocument,
     RegisterMutation,
     VoteMutationVariables,
+    DeletePostMutationVariables,
 } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import { pipe, tap } from "wonka";
@@ -96,6 +97,17 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
                 },
                 updates: {
                     Mutation: {
+                        deletePost: (
+                            _result,
+                            args: DeletePostMutationVariables,
+                            cache,
+                            _info
+                        ) => {
+                            cache.invalidate({
+                                __typename: "Post",
+                                id: args.id,
+                            });
+                        },
                         vote: (_result, args, cache, _info) => {
                             const { postId, value } =
                                 args as VoteMutationVariables;

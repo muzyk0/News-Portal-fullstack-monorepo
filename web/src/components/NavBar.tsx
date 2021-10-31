@@ -28,11 +28,11 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
         );
     } else {
         body = (
-            <Flex>
+            <Flex align="center">
                 <NextLink href="/create-post">
-                    <Link ml="auto" mr={2}>
+                    <Button as={Link} mr={4}>
                         create post
-                    </Link>
+                    </Button>
                 </NextLink>
                 <Box mr={2}>{data.me.username}</Box>
                 <Button
@@ -54,12 +54,14 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
             p={4}
             align="center"
         >
-            <NextLink href="/">
-                <Link>
-                    <Heading>Fullstack-App</Heading>
-                </Link>
-            </NextLink>
-            <Box ml="auto">{body}</Box>
+            <Flex flex={1} m="auto" align="center" maxW={800}>
+                <NextLink href="/">
+                    <Link>
+                        <Heading>Fullstack-App</Heading>
+                    </Link>
+                </NextLink>
+                <Box ml="auto">{body}</Box>
+            </Flex>
         </Flex>
     );
 };
